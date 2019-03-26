@@ -12,10 +12,11 @@ jQuery(function(){
 			name = jQuery( this ).data('name'),
 			email = jQuery( this ).data('email'),
 			perfil_id = jQuery( this ).data('perfil'),
-
+			listagem = jQuery( this ).data('listagem'),
 			modal = jQuery('.ui.editar_usuario_modal'),
 			action = modal.data( 'action' );
 			action = action + '/' + id;
+			console.log(listagem);
 		modal.attr( 'action', action );
 		modal.find('input[name="id"]').val( id );
 		modal.find('input[name="nome"]').val( name );

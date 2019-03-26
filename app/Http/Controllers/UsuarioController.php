@@ -7,8 +7,22 @@ use Illuminate\Http\Request;
 class UsuarioController extends Controller
 {
     public function index(){
-        $usuarios = \App\Usuario::all();
 
+
+        $usuarios = \App\Usuario::with('perfil')->get();
+       
+        foreach($usuarios as $usuario){
+            $lista = [];
+            foreach($usuario->perfil as $perfilInd){
+                $lista[] = $perfilInd->id;
+            }
+            $usuario->listagem = json_encode($lista);
+
+        }
+
+
+
+        // dd($usuarios);
         // with('perfil')->get();
         $perfis = \App\Perfil::all();
         return view('usuarios', ['usuarios' => $usuarios, 'perfis' => $perfis]);
@@ -57,21 +71,40 @@ class UsuarioController extends Controller
 
     }
 
-    public function update( Request $request, $id )
+    public function update(Request $request, $id)
     {
-    	var_dump("chegou aqui");
-        $usuario = \App\Usuario::find( $id );
+
+        // dd($request);
+        // var_dump("chegou aqui");
+        // exit();
+        $usuario = \App\Usuario::find($id);
 
         $data = $this->validate($request, [
 
             'nome' => 'required',
             'email' => 'required',
-            'password' => 'required',
-            'perfil_id' => 'required',
+            // 'password' => 'required',
+            // 'perfil_id' => 'required',
         ]);
-        $data['id'] = $id;
-        $data['password'] = md5($request->password);
-        $usuario->update( $data );
+        // $data['id'] = $id;]
+
+        // dd($data);
+        if(!is_null($request->input('password'))){
+            $data['password'] = md5($request->password);
+        } 
+        $usuario->update($data);
+
+        $perfis = json_decode($request->input('profiles'))->inputs->ipt_checked;
+        
+        $usuario->perfil()->detach();
+        foreach($perfis as $perfil) {
+            
+            $usuario->perfil()->attach($perfil);
+            // $usuario->associacao()->attach($perfil);
+        }
+        
+
+
         $request->session()->flash( 'msg', "$usuario->nome, foi atualizado." );
         return redirect('/usuario');
     }

@@ -36,9 +36,13 @@
 		          </td>
 		          <td>{{ $usuario->nome }}</td>
 		          <td>{{ $usuario->email }}</td>
-		          <td>{ $usuario->perfil->nome }</td>
 		          <td>
-		          	<a class="editar_usuario ui positive button" data-id="{{$usuario->id}}" data-name="{{$usuario->nome}}" data-email="{{$usuario->email}}" data-perfil="{$usuario->perfil_id}" href="">Editar</a>
+									@foreach($usuario->perfil as $perfilIndividual)
+											{{ $perfilIndividual->nome }}<br>
+									@endforeach
+							</td>
+		          <td>
+		          	<a data-listagem="{{ $usuario->listagem }}" class="editar_usuario ui positive button" data-id="{{$usuario->id}}" data-name="{{$usuario->nome}}" data-email="{{$usuario->email}}" data-perfil="{$usuario->perfil_id}" href="">Editar</a>
 		          	<a class="apagar_usuario ui negative button" data-id="{{$usuario->id}}" data-name="{{$usuario->nome}}" href="">Apagar</a>
 	      		  </td>
 		        </tr>
@@ -116,14 +120,15 @@
 							</div>
 							<div class="two fields">
 								<div class="field">
-									<input type="password" name="password" required placeholder="Digite a senha">
+									<input type="password" name="password" placeholder="Digite a senha">
 								</div>
 								<div class="field">
 									<label>Selecione um Perfil</label>
+									<input type="hidden" name="profiles">
 									@if( $perfis )
 										@foreach($perfis as $perfil)
 										<label>
-											<input type="checkbox" value="{{$perfil->id}}"></option>
+											<input class="single_profile" name="single_profile" type="checkbox" value="{{$perfil->id}}"></option>
 											<span>{{$perfil->nome}}</span>
 										</label>
 										@endforeach
