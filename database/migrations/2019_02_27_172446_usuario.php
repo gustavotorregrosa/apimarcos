@@ -19,7 +19,7 @@ class Usuario extends Migration
             $table->string('email');
             $table->string('password');
             $table->integer('logado');
-            $table->enum('meio', ['facebook', 'googleplus','sevenpass'] );
+            $table->enum('meio', ['facebook', 'googleplus','sevenpass', 'base local'] );
             $table->softDeletes();
             $table->timestamps();
         });

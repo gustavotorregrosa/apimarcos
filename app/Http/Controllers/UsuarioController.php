@@ -35,6 +35,7 @@ class UsuarioController extends Controller
 
     public function store(Request $request)
     {
+
        
         $usuario = new \App\Usuario;
         
@@ -42,7 +43,7 @@ class UsuarioController extends Controller
         $usuario->email = $request->input( 'email' );
         $usuario->password = md5( $request->input( 'password' ) );
         $usuario->logado = 0;
-        $usuario->meio = 'facebook';
+        $usuario->meio = 'base local';
 
         $usuario->save();
         

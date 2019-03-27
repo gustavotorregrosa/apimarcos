@@ -16,7 +16,12 @@ jQuery(function(){
 			modal = jQuery('.ui.editar_usuario_modal'),
 			action = modal.data( 'action' );
 			action = action + '/' + id;
-			console.log(listagem);
+			// console.log(listagem);
+			$(".editar_usuario_modal .single_profile").prop("checked", false);
+			$.each(listagem, function(index, valor){
+				console.log(valor);
+				$(".editar_usuario_modal input[value="+valor+"]").prop("checked", true);
+			});
 		modal.attr( 'action', action );
 		modal.find('input[name="id"]').val( id );
 		modal.find('input[name="nome"]').val( name );
@@ -63,6 +68,7 @@ jQuery(function(){
 		})
 		// setando no input hidden
 		jQuery( 'input[name="profiles"]' ).val( JSON.stringify(newjson)  );
+		// console.log($('input[name="profiles"]').val());
   	} )
 
 
