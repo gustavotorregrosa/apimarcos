@@ -143,4 +143,11 @@ class UsuarioController extends Controller
 
     	return $response;
     }
+
+    public function verificaUsuario(){
+        \Debugbar::disable();
+        return "teste 1234";
+    }
+
+
 }
